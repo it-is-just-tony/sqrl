@@ -1,6 +1,22 @@
-import { query } from './pool.js';
+import { query, getConnectionInfo } from './pool.js';
+import pg from 'pg';
+import '../loadEnv.js';
 
 async function migrate() {
+  if (process.env.DB_DEBUG === '1') {
+    console.log('[migrate][debug] connection info:', getConnectionInfo());
+  }
+  // Direct auth test with new client (bypassing pool reuse)
+  if (process.env.DB_DEBUG === '1') {
+    const { Client } = pg;
+    const c = new Client({ connectionString: process.env.DATABASE_URL });
+    try {
+      await c.connect();
+      console.log('[migrate][debug] standalone client auth OK');
+    } catch (e) {
+      console.error('[migrate][debug] standalone client auth FAIL', e.code, e.message);
+    } finally { try { await c.end(); } catch(_){} }
+  }
   try {
     await query(`CREATE TABLE IF NOT EXISTS wallets (
       id SERIAL PRIMARY KEY,
