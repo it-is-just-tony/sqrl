@@ -14,6 +14,8 @@ else
 	echo "[deploy] Generating lockfile for future deterministic installs"
 	npm install --package-lock-only --no-audit --no-fund || true
 fi
+echo "[deploy] Preflight: verifying DB connectivity with current .env"
+node scripts/db-preflight.js || { echo "[deploy][fatal] DB preflight failed. Aborting deploy."; exit 1; }
 node src/db/migrate.js
 echo "[deploy] Restarting PM2 process sqrl-api"
 pm2 restart sqrl-api || pm2 start src/index.js --name sqrl-api
