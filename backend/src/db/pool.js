@@ -28,6 +28,7 @@ function describeConn(url) {
 
 if (process.env.DB_DEBUG === '1') {
   console.log('[db][debug] ENV DATABASE_URL raw:', rawUrl);
+  console.log('[db][debug] Loaded environment variables from:', process.env.DATABASE_URL);
   console.log('[db][debug] Parsed:', describeConn(rawUrl));
 }
 
