@@ -1,4 +1,4 @@
-import './globals.css';
+import '../styles/globals.css';
 
 export const metadata = { title: 'sqrl | motionless', description: 'Solana wallet profitability tracker' };
 
