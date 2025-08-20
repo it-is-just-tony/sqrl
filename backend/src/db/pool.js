@@ -4,7 +4,7 @@ import '../loadEnv.js';
 const { Pool } = pg;
 
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || `postgres://postgres:postgres@localhost:5432/sqrl`
+  connectionString: process.env.DATABASE_URL || `postgres://postgres:postgres@localhost:5432/appdb`
 });
 
 export function query(text, params) {
